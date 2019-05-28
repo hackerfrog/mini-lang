@@ -1,22 +1,24 @@
 from Tokenizer import *
 from Constants import *
 from Errors import *
+from Position import *
 
 ################################################################################
 ## LEXER
 ################################################################################
 
 class Lexer:
-    def __init__(self, a_text):
+    def __init__(self, a_file_name, a_text):
+        self.file_name = a_file_name
         self.text = a_text
-        self.current_possition = -1
+        self.current_possition = Position(-1, 0, -1, a_file_name, a_text)
         self.current_character = None
         self.advance()
 
     def advance(self):
-        self.current_possition += 1
-        if self.current_possition < len(self.text):
-            self.current_character = self.text[self.current_possition]
+        self.current_possition.advance(self.current_character)
+        if self.current_possition.index < len(self.text):
+            self.current_character = self.text[self.current_possition.index]
         else:
             self.current_character = None
 
@@ -49,9 +51,10 @@ class Lexer:
             elif self.current_character in DIGITS:
                 tokens.append()
             else:
+                position_start = self.current_possition.copy()
                 character = self.current_character
                 self.advance()
-                return [], IllegalCharacterError(f"'{character}'")
+                return [], IllegalCharacterError(position_start, self.current_possition, f"'{character}'")
 
         return tokens, None
 

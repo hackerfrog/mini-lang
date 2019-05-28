@@ -6,7 +6,7 @@ while True:
     if command in [':x', '::exit']:
         break
     
-    result, error = mini.run(command)
+    result, error = mini.run('<stdin>', command)
 
     if error:
         print(error.as_string())
