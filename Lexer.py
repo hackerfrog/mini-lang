@@ -11,14 +11,14 @@ class Lexer:
     def __init__(self, a_file_name, a_text):
         self.file_name = a_file_name
         self.text = a_text
-        self.current_possition = Position(-1, 0, -1, a_file_name, a_text)
+        self.current_position = Position(-1, 0, -1, a_file_name, a_text)
         self.current_character = None
         self.advance()
 
     def advance(self):
-        self.current_possition.advance(self.current_character)
-        if self.current_possition.index < len(self.text):
-            self.current_character = self.text[self.current_possition.index]
+        self.current_position.advance(self.current_character)
+        if self.current_position.index < len(self.text):
+            self.current_character = self.text[self.current_position.index]
         else:
             self.current_character = None
 
@@ -51,10 +51,10 @@ class Lexer:
             elif self.current_character in DIGITS:
                 tokens.append()
             else:
-                position_start = self.current_possition.copy()
+                position_start = self.current_position.copy()
                 character = self.current_character
                 self.advance()
-                return [], IllegalCharacterError(position_start, self.current_possition, f"'{character}'")
+                return [], IllegalCharacterError(position_start, self.current_position, f"'{character}'")
 
         return tokens, None
 

@@ -1,3 +1,4 @@
-__pycache/
+__pycache__/
+docs/
 *.py[cod]
 *$py.class
