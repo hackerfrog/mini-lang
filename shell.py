@@ -1,4 +1,4 @@
-import mini
+from mini import mini
 
 while True:
     command = input('>> ')

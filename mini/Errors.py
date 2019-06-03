@@ -1,4 +1,4 @@
-from error_pointer import *
+from mini.error_pointer import *
 
 ################################################################################
 ## ERRORS

@@ -1,5 +1,5 @@
-from Constants import *
-from Nodes import *
+from mini.Constants import *
+from mini.Nodes import *
 
 ################################################################################
 ## PARSER

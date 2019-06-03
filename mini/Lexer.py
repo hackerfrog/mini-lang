@@ -1,7 +1,7 @@
-from Tokenizer import *
-from Constants import *
-from Errors import *
-from Position import *
+from mini.Tokenizer import *
+from mini.Constants import *
+from mini.Errors import *
+from mini.Position import *
 
 ################################################################################
 ## LEXER

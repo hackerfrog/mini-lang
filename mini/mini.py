@@ -1,5 +1,5 @@
-from Lexer import *
-from Parser import *
+from mini.Lexer import *
+from mini.Parser import *
 
 ################################################################################
 ## RUN
