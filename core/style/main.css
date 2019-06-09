@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Barlow&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Barlow:100,300,400,500,700&display=swap');
 
 body {
     background-color: #fff;
@@ -72,6 +72,30 @@ li.nav-item a:hover {
 
 footer a.nav-item {
     padding: 8px 16px;
+}
+
+article.body {
+    padding: 48px 0 48px 64px;
+}
+
+article.body h1 {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 100;
+    color: #323d47;
+    letter-spacing: 0.5px;
+    font-size: 40px;
+    margin: 0 0 8px;
+}
+
+article.body p {
+    font-size: 18px;
+    font-weight: 300;
+    font-family: 'Barlow', sans-serif;
+}
+
+article.body code {
+    color: #ba5e63;
+    font-size: 87%;
 }
 
 .container {
@@ -215,4 +239,56 @@ footer a.nav-item {
 
 .text-right {
     text-align: right !important;
+}
+
+.height-100 {
+    min-height: 100%;
+    height: 100%;
+}
+
+.grow-1 {
+    flex-grow: 1;
+}
+
+.has-sidebar .sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100vh;
+    height: 100%;
+    display: contents;
+}
+
+.side-body {
+    padding: 12px 0;
+}
+
+.side-body ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: rgba(0,0,0,0.6);
+    font-size: 18px;
+}
+.side-body li {
+    font-weight: 400px;
+    border-bottom: 1px dashed #eaeff4;
+    font-family: 'Barlow', sans-serif;
+    font-weight: 600px;
+    padding: 12px 0;
+}
+
+.sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+}
+
+.rborder {
+    border-right: 1px solid #f1f2f3;
+}
+
+.rshadow {
+    box-shadow: 3px 0 5px rgba(0,0,0,0.015);
 }
