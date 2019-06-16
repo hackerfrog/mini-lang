@@ -78,13 +78,39 @@ article.body {
     padding: 48px 0 48px 64px;
 }
 
-article.body h1 {
+article.body h1,
+article.body h2,
+article.body h3,
+article.body h4,
+article.body h5,
+article.body h6 {
     font-family: 'Barlow', sans-serif;
     font-weight: 100;
-    color: #323d47;
     letter-spacing: 0.5px;
-    font-size: 40px;
     margin: 0 0 8px;
+    color: #323d47;
+}
+
+article.body ol {
+    font-weight: 300;
+    font-family: 'Barlow', sans-serif;
+}
+
+article.body h1 {
+    font-size: 40px;
+}
+
+article.body h2 {
+    font-size: 32px;
+    margin-top: 32px;
+}
+
+article.body h3 {
+    font-size: 28px;
+}
+
+article.body h4 {
+    font-size: 24px;
 }
 
 article.body p {
@@ -94,6 +120,13 @@ article.body p {
 }
 
 article.body code {
+    color: #ba5e63;
+    font-size: 87%;
+}
+
+article.body pre {
+    background-color: #f9f9f9;
+    padding: 24px;
     color: #ba5e63;
     font-size: 87%;
 }
@@ -268,9 +301,10 @@ article.body code {
     margin: 0;
     padding: 0;
     list-style: none;
-    color: rgba(0,0,0,0.6);
+    color: rgba(0, 0, 0, 0.6);
     font-size: 18px;
 }
+
 .side-body li {
     font-weight: 400px;
     border-bottom: 1px dashed #eaeff4;
@@ -290,5 +324,24 @@ article.body code {
 }
 
 .rshadow {
-    box-shadow: 3px 0 5px rgba(0,0,0,0.015);
+    box-shadow: 3px 0 5px rgba(0, 0, 0, 0.015);
+}
+
+.separator {
+    border-bottom: 2px solid #DDDDDD;
+    margin: 48px 0;
+}
+.separator::after {
+    height: 16px;
+    width: 16px;
+    background: #FFF;
+    content: ' ';
+    position: relative;
+    left: 50%;
+    border: 2px solid #DDDDDD;
+    border-top: 0;
+    border-left: 0;
+    transform: rotate(45deg);
+    margin-bottom: -14px;
+    display: inline-block;
 }
