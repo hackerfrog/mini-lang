@@ -124,6 +124,10 @@ article.body code {
     font-size: 87%;
 }
 
+article.body code a {
+    color: inherit;
+}
+
 article.body pre {
     background-color: #f9f9f9;
     padding: 24px;
@@ -306,6 +310,14 @@ article.body ul.inline-center li a:hover {
     -webkit-box-flex: 0;
     flex: 0 0 100%;
     max-width: 100%;
+}
+
+.text-left {
+    text-align: left !important;
+}
+
+.text-center {
+    text-align: center !important;
 }
 
 .text-right {
