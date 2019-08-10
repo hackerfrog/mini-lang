@@ -135,14 +135,17 @@ article.body pre {
     font-size: 87%;
 }
 
+article.body .col-12>a.iref,
 article.body h1>a.iref,
 article.body h2>a.iref {
+    font-family: 'Barlow', sans-serif;
     display: inline-block;
     position: absolute;
     margin-left: -24px;
     opacity: 0;
 }
 
+article.body .col-12:hover>a.iref,
 article.body h1:hover>a.iref,
 article.body h2:hover>a.iref {
     opacity: 1;
