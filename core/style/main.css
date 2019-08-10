@@ -173,6 +173,32 @@ article.body ul.inline-center li a:hover {
     color: rgba(0, 0, 0, 0.9);
 }
 
+article.body table.properties {
+    border: 1px solid #DDDDDD;
+    font-family: 'Barlow', sans-serif;
+    font-size: 80%;
+    padding: 0;
+    margin: 0;
+    border-collapse: collapse;
+    margin-bottom: 18px;
+}
+
+article.body table.properties th {
+    font-weight: 500;
+    background: #f1f2f3;
+}
+
+article.body table.properties td,
+article.body table.properties th {
+    border: 1px solid #DDDDDD;
+    padding: 4px 8px;
+}
+
+article.body table.properties td.req,
+article.body table.properties td.arg {
+    font-weight: bold;
+}
+
 .container {
     margin: 0 auto;
     max-width: 1140px;
@@ -442,4 +468,9 @@ article.body ul.inline-center li a:hover {
     transform: rotate(45deg);
     margin-bottom: -14px;
     display: inline-block;
+}
+
+.breaker {
+    border-bottom: 2px solid #DDDDDD;
+    margin: 24px 0;
 }
