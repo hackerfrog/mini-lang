@@ -124,6 +124,10 @@ article.body code {
     font-size: 87%;
 }
 
+article.body code a {
+    color: inherit;
+}
+
 article.body pre {
     background-color: #f9f9f9;
     padding: 24px;
@@ -174,6 +178,48 @@ article.body ul.inline-center li a:hover {
     max-width: 1140px;
     padding: 0 15px;
     width: 100%;
+}
+
+.container .breadcrumb {
+    background: rgba(241, 242, 243, 0.5);
+    padding: 8px 32px;
+    margin: 0 -15px;
+    font-family: 'Barlow', sans-serif;
+}
+
+.container .breadcrumb ul {
+    margin: 0;
+    list-style: none;
+    padding: 0;
+}
+
+.container .breadcrumb ul li {
+    display: inline-block;
+    color: rgb(117, 117, 117);
+}
+
+.container .breadcrumb ul li.active {
+    font-weight: 500;
+    color: #ba5e63;
+}
+
+.container .breadcrumb ul li::after {
+    content: ' / ';
+    color: rgb(117, 117, 117);
+    font-weight: 900;
+}
+
+.container .breadcrumb ul li:last-child::after {
+    display: none;
+}
+
+.container .breadcrumb ul li a {
+    color: rgb(117, 117, 117);
+    text-decoration: none;
+}
+
+.container .breadcrumb ul li code a {
+    color: #ba5e63;
 }
 
 .navbar {
@@ -306,6 +352,14 @@ article.body ul.inline-center li a:hover {
     -webkit-box-flex: 0;
     flex: 0 0 100%;
     max-width: 100%;
+}
+
+.text-left {
+    text-align: left !important;
+}
+
+.text-center {
+    text-align: center !important;
 }
 
 .text-right {
