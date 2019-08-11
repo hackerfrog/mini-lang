@@ -135,14 +135,17 @@ article.body pre {
     font-size: 87%;
 }
 
+article.body .col-12>a.iref,
 article.body h1>a.iref,
 article.body h2>a.iref {
+    font-family: 'Barlow', sans-serif;
     display: inline-block;
     position: absolute;
     margin-left: -24px;
     opacity: 0;
 }
 
+article.body .col-12:hover>a.iref,
 article.body h1:hover>a.iref,
 article.body h2:hover>a.iref {
     opacity: 1;
@@ -171,6 +174,32 @@ article.body ul.inline-center li a {
 }
 article.body ul.inline-center li a:hover {
     color: rgba(0, 0, 0, 0.9);
+}
+
+article.body table.properties {
+    border: 1px solid #DDDDDD;
+    font-family: 'Barlow', sans-serif;
+    font-size: 80%;
+    padding: 0;
+    margin: 0;
+    border-collapse: collapse;
+    margin-bottom: 18px;
+}
+
+article.body table.properties th {
+    font-weight: 500;
+    background: #f1f2f3;
+}
+
+article.body table.properties td,
+article.body table.properties th {
+    border: 1px solid #DDDDDD;
+    padding: 4px 8px;
+}
+
+article.body table.properties td.req,
+article.body table.properties td.arg {
+    font-weight: bold;
 }
 
 .container {
@@ -442,4 +471,9 @@ article.body ul.inline-center li a:hover {
     transform: rotate(45deg);
     margin-bottom: -14px;
     display: inline-block;
+}
+
+.breaker {
+    border-bottom: 2px solid #DDDDDD;
+    margin: 24px 0;
 }
