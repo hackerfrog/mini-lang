@@ -23,7 +23,7 @@
                 </ul>
             </nav>
 
-            <h3>Position.py</h3>
+            <h3>ParserResult.py</h3>
         </div>
     </header>
 
@@ -35,7 +35,6 @@
                         <div class="sticky">
                             <div class="side-body">
                                 <ul>
-                                    <li><a href="#imports">Imports</a></li>
                                     <li><a href="#classes">Classes</a></li>
                                     <li><a href="#functions">Functions</a></li>
                                 </ul>
@@ -48,20 +47,18 @@
                             <ul>
                                 <li><a href="/mini-lang/">mini-lang</a></li>
                                 <li><a href="/mini-lang/mini/">mini</a></li>
-                                <li class="active"><code>Position.py</code></li>
+                                <li class="active"><code>ParserResult.py</code></li>
                             </ul>
                         </div>
                     <article class="body">
-                        <p><code>Position.py</code> keeps track of position of every element passed in given command or script.</p>
+                        <p><code>ParserResult.py</code> keeps track of the result of each calculation made under the <code>mini-lang</code> system and respond accordingly as success or failure.</p>
 
                         <div class="separator"></div>
 
                         <h2><a class="iref" name="classes">&sect;</a>Classes</h2>
                         <div class="row">
                             <div class="col-12">
-                                <ul>
-                                    <li><code>Position</code></li>
-                                </ul>
+                                <code>ParserResult</code>
                             </div>
                         </div>
 
@@ -71,18 +68,29 @@
                         <div class="row">
                             <div class="col-12">
                                 <ul>
-                                    <li><code>Position.<a href="#position-init">__init__</a>()</code></li>
-                                    <li><code>Position.<a href="#position-advance">advance</a>()</code></li>
-                                    <li><code>Position.<a href="#position-copy">copy</a>()</code></li>
+                                    <li><code>ParserResult.<a href="#parserresult-init">__init__</a>()</code></li>
+                                    <li><code>ParserResult.<a href="#parserresult-register">register</a>()</code></li>
+                                    <li><code>ParserResult.<a href="#parserresult-success">success</a>()</code></li>
+                                    <li><code>ParserResult.<a href="#parserresult-failure">failure</a>()</code></li>
                                 </ul>
                             </div>
                             <div class="col-12 breaker"></div>
                             <div class="col-12">
-                                <a class="iref" name="position-init">&sect;</a>
-                                <code>Position.<b>__init__</b>(a_index, a_line, a_column, a_file_name, a_file_text)</code>
+                                <a class="iref" name="parserresult-init">&sect;</a>
+                                <code>ParserResult.<b>__init__</b>()</code>
                             </div>
                             <div class="col-12">
-                                <p><code>Position</code>'s constructor</p>
+                                <p><code>ParserResult</code>'s constructor</p>
+                            </div>
+
+                            <div class="col-12 breaker"></div>
+
+                            <div class="col-12">
+                                <a class="iref" name="parserresult-register">&sect;</a>
+                                <code>ParserResult.<b>register</b>(a_result)</code>
+                            </div>
+                            <div class="col-12">
+                                <p>It's identify calculation response is result or error</p>
 
                                 <h4>Parameters</h4>
                                 <table class="properties">
@@ -95,50 +103,25 @@
                                     </tr>
                                     <tr>
                                         <td class="req">*</td>
-                                        <td class="arg"><code>a_index</code></td>
-                                        <td><code>int</code></td>
+                                        <td class="arg"><code>a_result</code></td>
+                                        <td><code>Node</code>, <code>ParserResult</code></td>
                                         <td></td>
-                                        <td>Location of each character passed in command or script</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="req">*</td>
-                                        <td class="arg"><code>a_line</code></td>
-                                        <td><code>int</code></td>
-                                        <td></td>
-                                        <td>Line number of each character passed in command or script</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="req">*</td>
-                                        <td class="arg"><code>a_column</code></td>
-                                        <td><code>int</code></td>
-                                        <td></td>
-                                        <td>Column number of each character passed in command or script</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="req">*</td>
-                                        <td class="arg"><code>a_file_name</code></td>
-                                        <td><code>string</code></td>
-                                        <td></td>
-                                        <td>Name of file from where error has occurred.</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="req">*</td>
-                                        <td class="arg"><code>a_file_text</code></td>
-                                        <td><code>string</code></td>
-                                        <td></td>
-                                        <td>Whole command or script given to <code>mini-lang</code> system</td>
+                                        <td>Operation result response need to identify</td>
                                     </tr>
                                 </table>
+                            </div>
+                            <div class="col-12">
+                                <h4>Returns &rArr; <code>Node</code></h4>
                             </div>
 
                             <div class="col-12 breaker"></div>
 
                             <div class="col-12">
-                                <a class="iref" name="position-advance">&sect;</a>
-                                <code>Position.<b>advance</b>(a_current_character)</code>
+                                <a class="iref" name="parserresult-success">&sect;</a>
+                                <code>ParserResult.<b>success</b>(a_node)</code>
                             </div>
                             <div class="col-12">
-                                <p><code>advance</code> function calculate all parameters of <code>Position</code> class and returns <code>self</code>.</p>
+                                <p>Return <code>ParserResult</code> if operation result is success</p>
 
                                 <h4>Parameters</h4>
                                 <table class="properties">
@@ -151,53 +134,46 @@
                                     </tr>
                                     <tr>
                                         <td class="req">*</td>
-                                        <td class="arg"><code>a_current_character</code></td>
-                                        <td><code>string</code></td>
-                                        <td><code>None</code></td>
-                                        <td>Current character</td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <div class="col-12">
-                                <h4>Returns &rArr; <code>Position</code></h4>
-                                <table class="properties">
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Type</th>
-                                        <th>Details</th>
-                                    </tr>
-                                    <tr>
+                                        <td class="arg"><code>a_node</code></td>
+                                        <td><code>Node</code></td>
                                         <td></td>
-                                        <td><code>Position</code></td>
-                                        <td>After making all calculate for new character passed to function it's return <code>self</code></td>
+                                        <td>Node which need to mark as success</td>
                                     </tr>
                                 </table>
+
+                                <h4>Returns &rArr; <code>ParserResult</code></h4>
                             </div>
 
                             <div class="col-12 breaker"></div>
 
                             <div class="col-12">
-                                    <a class="iref" name="illegal-init">&sect;</a>
-                                    <code>Position.<b>copy</b>()</code>
+                                <a class="iref" name="parserresult-failure">&sect;</a>
+                                <code>ParserResult.<b>failure</b>(a_error)</code>
                             </div>
                             <div class="col-12">
-                                <p>It's used to make copy of position details of present character and proceed further.</p>
-                            </div>
-                            <div class="col-12">
-                                <h4>Returns &rArr; <code>Position</code></h4>
+                                <p>Return <code>ParserResult</code> if operation result is failed due to any condition.</p>
+
+                                <h4>Parameters</h4>
                                 <table class="properties">
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Type</th>
+                                        <th>Req</th>
+                                        <th>Argument</th>
+                                        <th>Datatype</th>
+                                        <th>Default</th>
                                         <th>Details</th>
                                     </tr>
                                     <tr>
+                                        <td class="req">*</td>
+                                        <td class="arg"><code>a_error</code></td>
+                                        <td><code>Error</code></td>
                                         <td></td>
-                                        <td><code>Position</code></td>
-                                        <td>returns copy of own object.</td>
+                                        <td>Error which need to mark as failure</td>
                                     </tr>
                                 </table>
+
+                                <h4>Returns &rArr; <code>ParserResult</code></h4>
                             </div>
+
                         </div>
                     </article>
                 </div>

@@ -61,7 +61,11 @@
                             <div class="col-12">
                                 <code>from mini.<a href="/mini-lang/mini/docs/mini/Constants.py.html">Constants</a> import <b>*</b></code>
                                 <br />
+                                <code>from mini.<a href="/mini-lang/mini/docs/mini/Errors.py.html">Errors</a> import <b>*</b></code>
+                                <br />
                                 <code>from mini.<a href="/mini-lang/mini/docs/mini/Nodes.py.html">Nodes</a> import <b>*</b></code>
+                                <br />
+                                <code>from mini.<a href="/mini-lang/mini/docs/mini/ParserResult.py.html">ParserResult</a> import <b>*</b></code>
                             </div>
                         </div>
 
@@ -163,7 +167,7 @@
                                     </tr>
                                 </table>
 
-                                <h4>Returns &rArr; <code>string</code></h4>
+                                <h4>Returns &rArr; <code>ParserResult</code></h4>
                                 <table class="properties">
                                     <tr>
                                         <th>Name</th>
@@ -172,8 +176,8 @@
                                     </tr>
                                     <tr>
                                         <td></td>
-                                        <td><code>String</code></td>
-                                        <td>It returns an AST in a string format. *(In future return will be calculated value based on grammar rule and operation is given to function)</td>
+                                        <td><code>ParserResult</code></td>
+                                        <td>Returns calculated result or Error under <code>ParserResult</code> object</td>
                                     </tr>
                                 </table>
                             </div>
@@ -187,7 +191,7 @@
                             <div class="col-12">
                                 <p><code>expr</code> is at lowest level of grammar rule under which arithmetic operation like addition and subtraction are performed.</p>
 
-                                <h4>Returns &rArr; <code>string</code></h4>
+                                <h4>Returns &rArr; <code>ParserResult</code></h4>
                                 <table class="properties">
                                     <tr>
                                         <th>Name</th>
@@ -196,8 +200,8 @@
                                     </tr>
                                     <tr>
                                         <td></td>
-                                        <td><code>String</code></td>
-                                        <td>It returns an AST in a string format. *(In future return will be calculated value based on grammar rule and operation is given to function)</td>
+                                        <td><code>ParserResult</code></td>
+                                        <td>Returns calculated result or Error under <code>ParserResult</code> object</td>
                                     </tr>
                                 </table>
                             </div>
@@ -211,7 +215,7 @@
                             <div class="col-12">
                                 <p><code>factor</code> is at highest level of grammar rule under which data type casting is performed. (Currently supporting : <code>int</code> and <code>float</code>)</p>
 
-                                <h4>Returns &rArr; <code>string</code></h4>
+                                <h4>Returns &rArr; <code>ParserResult</code></h4>
                                 <table class="properties">
                                     <tr>
                                         <th>Name</th>
@@ -220,8 +224,8 @@
                                     </tr>
                                     <tr>
                                         <td></td>
-                                        <td><code>String</code></td>
-                                        <td>It returns an AST in a string format. *(In future return will be calculated value based on grammar rule and operation is given to function)</td>
+                                        <td><code>ParserResult</code></td>
+                                        <td>Returns calculated result or Error under <code>ParserResult</code> object</td>
                                     </tr>
                                 </table>
                             </div>
@@ -235,7 +239,7 @@
                             <div class="col-12">
                                 <p><code>parse</code> is root function where highest level of grammar rule function is called</p>
 
-                                <h4>Returns &rArr; <code>string</code></h4>
+                                <h4>Returns &rArr; <code>ParserResult</code></h4>
                                 <table class="properties">
                                     <tr>
                                         <th>Name</th>
@@ -244,8 +248,8 @@
                                     </tr>
                                     <tr>
                                         <td></td>
-                                        <td><code>String</code></td>
-                                        <td>It returns an AST in a string format. *(In future return will be calculated value based on grammar rule and operation is given to function)</td>
+                                        <td><code>ParserResult</code></td>
+                                        <td>Returns calculated result or Error under <code>ParserResult</code> object</td>
                                     </tr>
                                 </table>
                             </div>
@@ -259,7 +263,7 @@
                             <div class="col-12">
                                 <p><code>term</code> is at middle level of grammar rule under which arithmetic operation like multiplication and division are performed.</p>
 
-                                <h4>Returns &rArr; <code>string</code></h4>
+                                <h4>Returns &rArr; <code>ParserResult</code></h4>
                                 <table class="properties">
                                     <tr>
                                         <th>Name</th>
@@ -268,8 +272,8 @@
                                     </tr>
                                     <tr>
                                         <td></td>
-                                        <td><code>String</code></td>
-                                        <td>It returns an AST in a string format. *(In future return will be calculated value based on grammar rule and operation is given to function)</td>
+                                        <td><code>ParserResult</code></td>
+                                        <td>Returns calculated result or Error under <code>ParserResult</code> object</td>
                                     </tr>
                                 </table>
                             </div>
