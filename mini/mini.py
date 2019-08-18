@@ -17,4 +17,4 @@ def run(a_file_name, a_command):
     parser = Parser(tokens)
     ast = parser.parse()
 
-    return ast, None
+    return ast.node, ast.error
