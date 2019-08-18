@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>mini-lang documentation</title>
+
+    <link rel="stylesheet" href="/mini-lang/core/style/normalize.css">
+    <link rel="stylesheet" href="/mini-lang/core/style/main.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <ul class="nav">
+                    <li class="nav-item"><a href="/mini-lang" class="nav-link logo">mini-lang</a></li>
+                    <li class="nav-item pipe">|</li>
+                    <li class="nav-item"><a href="/mini-lang/docs" class="nav-link">Docs</a></li>
+                    <li class="nav-item"><a href="https://github.com/hackerfrog/mini-lang" class="nav-link">Source Code</a></li>
+                </ul>
+            </nav>
+
+            <h3>error_pointer.py</h3>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="row height-100">
+                <div class="col-3 grow-1 has-sidebar rborder rshadow" style="padding-top: 32px;padding-bottom: 32px;">
+                    <div class="sidebar">
+                        <div class="sticky">
+                            <div class="side-body">
+                                <ul>
+                                    <li><a href="#functions">Functions</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-9 grow-1">
+                        <div class="breadcrumb">
+                            <ul>
+                                <li><a href="/mini-lang/">mini-lang</a></li>
+                                <li><a href="/mini-lang/mini/">mini</a></li>
+                                <li class="active"><code>error_pointer.py</code></li>
+                            </ul>
+                        </div>
+                    <article class="body">
+                        <p><code>error_pointer.py</code> is script which points out location in given command or string where might be an error.</p>
+
+                        <div class="separator"></div>
+
+                        <h2><a class="iref" name="functions">&sect;</a>Functions</h2>
+                        <div class="row">
+                            <div class="col-12">
+                                <ul>
+                                    <li><code><a href="#error_pointer">error_pointer</a>()</code></li>
+                                </ul>
+                            </div>
+                            <div class="col-12 breaker"></div>
+                            <div class="col-12">
+                                <a class="iref" name="error-init">&sect;</a>
+                                <code><b>error_pointer</b>(a_text, a_position_start, a_position_end)</code>
+                            </div>
+                            <div class="col-12">
+                                <p>This function calculates position where might error be</p>
+
+                                <h4>Parameters</h4>
+                                <table class="properties">
+                                    <tr>
+                                        <th>Req</th>
+                                        <th>Argument</th>
+                                        <th>Datatype</th>
+                                        <th>Default</th>
+                                        <th>Details</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="req">*</td>
+                                        <td class="arg"><code>a_text</code></td>
+                                        <td><code>string</code></td>
+                                        <td></td>
+                                        <td>Whole text of given command or script</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="req">*</td>
+                                        <td class="arg"><code>a_position_start</code></td>
+                                        <td><code><a href="/mini-lang/docs/mini/Position.py.html">Position</a></code></td>
+                                        <td></td>
+                                        <td>Stating position of token in given command or script</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="req">*</td>
+                                        <td class="arg"><code>a_position_end</code></td>
+                                        <td><code><a href="/mini-lang/docs/mini/Position.py.html">Position</a></code></td>
+                                        <td></td>
+                                        <td>Ending position of token in given command or script</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-12">
+                                <h4>Returns &rArr; <code>String</code></h4>
+                                <table class="properties">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Details</th>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td><code>string</code></td>
+                                        <td>Error description and location where might error can be.</td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-9">
+                    <div class="nav">
+                        <a href="/mini-lang" class="nav-item">Home</a>
+                        <a href="/mini-lang/docs" class="nav-item">Docs</a>
+                        <a href="/mini-lang/changelog.html" class="nav-item">Changelog</a>
+                        <a href="https://github.com/hackerfrog/mini-lang" class="nav-item">Source</a>
+                    </div>
+                </div>
+                <div class="col-3 text-right">
+                    <a href="https://github.com/hackerfrog">&copy; hackerfrog</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
