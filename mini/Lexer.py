@@ -31,22 +31,22 @@ class Lexer:
             elif self.current_character in DIGITS:
                 tokens.append(self.make_number())
             elif self.current_character == '+':
-                tokens.append(Token(TT_PLUS))
+                tokens.append(Token(TT_PLUS, a_position_start=self.current_position))
                 self.advance()
             elif self.current_character == '-':
-                tokens.append(Token(TT_MINUS))
+                tokens.append(Token(TT_MINUS, a_position_start=self.current_position))
                 self.advance()
             elif self.current_character == '*':
-                tokens.append(Token(TT_MULTIPLY))
+                tokens.append(Token(TT_MULTIPLY, a_position_start=self.current_position))
                 self.advance()
             elif self.current_character == '/':
-                tokens.append(Token(TT_DIVIDE))
+                tokens.append(Token(TT_DIVIDE, a_position_start=self.current_position))
                 self.advance()
             elif self.current_character == '(':
-                tokens.append(Token(TT_L_PAREN))
+                tokens.append(Token(TT_L_PAREN, a_position_start=self.current_position))
                 self.advance()
             elif self.current_character == ')':
-                tokens.append(Token(TT_R_PAREN))
+                tokens.append(Token(TT_R_PAREN, a_position_start=self.current_position))
                 self.advance()
             elif self.current_character in DIGITS:
                 tokens.append()
@@ -56,12 +56,14 @@ class Lexer:
                 self.advance()
                 return [], IllegalCharacterError(position_start, self.current_position, f"'{character}'")
 
+        tokens.append(Token(TT_EOF, a_position_start=self.current_position))
         return tokens, None
 
     def make_number(self):
         number_str = ''
         dot_count = 0
-        
+        position_start = self.current_position.copy()
+
         while self.current_character != None and self.current_character in DIGITS + '.':
             if self.current_character == '.':
                 if dot_count == 1:
@@ -74,6 +76,6 @@ class Lexer:
             self.advance()
 
         if dot_count == 0:
-            return Token(TT_INT, int(number_str))
+            return Token(TT_INT, int(number_str), position_start, self.current_position)
         else:
-            return Token(TT_FLOAT, float(number_str))
+            return Token(TT_FLOAT, float(number_str), position_start, self.current_position)
