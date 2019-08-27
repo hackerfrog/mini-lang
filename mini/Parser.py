@@ -1,7 +1,7 @@
 from mini.Constants import *
 from mini.Errors import *
 from mini.Nodes import *
-from mini.ParserResult import *
+from mini.Result import *
 
 ################################################################################
 ## PARSER
