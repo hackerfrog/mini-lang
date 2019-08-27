@@ -48,8 +48,6 @@ class Lexer:
             elif self.current_character == ')':
                 tokens.append(Token(TT_R_PAREN, a_position_start=self.current_position))
                 self.advance()
-            elif self.current_character in DIGITS:
-                tokens.append()
             else:
                 position_start = self.current_position.copy()
                 character = self.current_character

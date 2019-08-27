@@ -35,9 +35,28 @@ class Parser:
         result = ParserResult()
         token = self.current_token
 
-        if token.type in (TT_INT, TT_FLOAT):
+        if token.type in (TT_PLUS, TT_MINUS):
+            result.register(self.advance())
+            factor = result.register(self.factor())
+            if result.error:
+                return result
+            return result.success(UnaryOperationNode(token, factor))
+        elif token.type in (TT_INT, TT_FLOAT):
             result.register(self.advance())
             return result.success(NumberNode(token))
+        elif token.type == TT_L_PAREN:
+            result.register(self.advance())
+            expr = result.register(self.expr())
+            if result.error:
+                return result
+            if self.current_token.type == TT_R_PAREN:
+                result.register(self.advance())
+                return result.success(expr)
+            else:
+                return result.failure(InvalidSyntaxError(
+                    self.current_token.position_start, self.current_token.position_end,
+                    "Expected ')'"
+                ))
 
         return result.failure(InvalidSyntaxError(
             token.position_start, token.position_end,
