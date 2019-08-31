@@ -1,5 +1,6 @@
 from mini.Constants import *
 from mini.Values import *
+from mini.Result import *
 
 ################################################################################
 ## INTERPRETER
@@ -17,27 +18,45 @@ class Interpreter:
     ## VISIT METHODS ###########################################################
 
     def visit_NumberNode(self, a_node):
-        return Number(a_node.token.value).set_position(a_node.position_start, a_node.position_end)
+        return RunTimeResult().success(
+            Number(a_node.token.value).set_position(a_node.position_start, a_node.position_end)
+        )
 
     def visit_BinaryOperationNode(self, a_node):
-        left = self.visit(a_node.left)
-        right = self.visit(a_node.right)
+        response = RunTimeResult()
+        left = response.register(self.visit(a_node.left))
+        if response.error:
+            return response
+        right = response.register(self.visit(a_node.right))
+        if response.error:
+            return response
 
         if a_node.operator.type == TT_PLUS:
-            result = left.addition_by(right)
+            result, error = left.addition_by(right)
         elif a_node.operator.type == TT_MINUS:
-            result = left.subtraction_by(right)
+            result, error = left.subtraction_by(right)
         elif a_node.operator.type == TT_MULTIPLY:
-            result = left.multiply_by(right)
+            result, error = left.multiply_by(right)
         elif a_node.operator.type == TT_DIVIDE:
-            result = left.division_by(right)
+            result, error = left.division_by(right)
 
-        return result.set_position(a_node.position_start, a_node.position_end)
+        if error:
+            return response.failure(error)
+        else:
+            return response.success(result.set_position(a_node.position_start, a_node.position_end))
 
     def visit_UnaryOperationNode(self, a_node):
-        number = self.visit(a_node.node)
+        response = RunTimeResult()
+        number = response.register(self.visit(a_node.node))
+        if response.error:
+            return response
+
+        error = None
 
         if a_node.operator.type == TT_MINUS:
-            number = number.multiply_by(Number(-1))
+            number, error = number.multiply_by(Number(-1))
 
-        return number.set_position(a_node.position_start, a_node.position_end)
+        if error:
+            return response.failure(error)
+        else:
+            return response.success(number.set_position(a_node.position_start, a_node.position_end))

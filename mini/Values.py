@@ -1,3 +1,5 @@
+from mini.Errors import *
+
 ################################################################################
 ## NUMBER
 ################################################################################
@@ -14,16 +16,21 @@ class Number:
 
     def addition_by(self, a_other):
         if isinstance(a_other, Number):
-            return Number(self.value + a_other.value)
+            return Number(self.value + a_other.value), None
 
     def subtraction_by(self, a_other):
         if isinstance(a_other, Number):
-            return Number(self.value - a_other.value)
+            return Number(self.value - a_other.value), None
 
     def multiply_by(self, a_other):
         if isinstance(a_other, Number):
-            return Number(self.value * a_other.value)
+            return Number(self.value * a_other.value), None
 
     def division_by(self, a_other):
         if isinstance(a_other, Number):
-            return Number(self.value / a_other.value)
+            if a_other.value == 0:
+                return None, RunTimeError(
+                    a_other.position_start, a_other.position_end,
+                    'Division by zero'
+                )
+            return Number(self.value / a_other.value), None
