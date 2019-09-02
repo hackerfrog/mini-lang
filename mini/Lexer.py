@@ -42,6 +42,9 @@ class Lexer:
             elif self.current_character == '/':
                 tokens.append(Token(TT_DIVIDE, a_position_start=self.current_position))
                 self.advance()
+            elif self.current_character == '^':
+                tokens.append(Token(TT_POWER, a_position_start=self.current_position))
+                self.advance()
             elif self.current_character == '(':
                 tokens.append(Token(TT_L_PAREN, a_position_start=self.current_position))
                 self.advance()

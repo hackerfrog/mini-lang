@@ -31,17 +31,11 @@ class Parser:
 
     ## GRAMMER RULES ###########################################################
 
-    def factor(self):
+    def atom(self):
         result = ParserResult()
         token = self.current_token
 
-        if token.type in (TT_PLUS, TT_MINUS):
-            result.register(self.advance())
-            factor = result.register(self.factor())
-            if result.error:
-                return result
-            return result.success(UnaryOperationNode(token, factor))
-        elif token.type in (TT_INT, TT_FLOAT):
+        if token.type in (TT_INT, TT_FLOAT):
             result.register(self.advance())
             return result.success(NumberNode(token))
         elif token.type == TT_L_PAREN:
@@ -60,8 +54,24 @@ class Parser:
 
         return result.failure(InvalidSyntaxError(
             token.position_start, token.position_end,
-            "Expected type<int> or type<float>"
+            "Expected type<int>, type<float>, +, - or ("
         ))
+
+    def power(self):
+        return self.binary_operation(self.atom, (TT_POWER, ), self.factor)
+
+    def factor(self):
+        result = ParserResult()
+        token = self.current_token
+
+        if token.type in (TT_PLUS, TT_MINUS):
+            result.register(self.advance())
+            factor = result.register(self.factor())
+            if result.error:
+                return result
+            return result.success(UnaryOperationNode(token, factor))
+
+        return self.power()
 
     def term(self):
         return self.binary_operation(self.factor, (TT_MULTIPLY, TT_DIVIDE))
@@ -69,16 +79,19 @@ class Parser:
     def expr(self):
         return self.binary_operation(self.term, (TT_PLUS, TT_MINUS))
 
-    def binary_operation(self, a_function, a_operations):
+    def binary_operation(self, a_functionA, a_operations, a_functionB = None):
+        if a_functionB == None:
+            a_functionB = a_functionA
+
         result = ParserResult()
-        left = result.register(a_function())
+        left = result.register(a_functionA())
         if result.error:
             return result
 
         while self.current_token.type in a_operations:
             operator = self.current_token
             result.register(self.advance())
-            right = result.register(a_function())
+            right = result.register(a_functionB())
             if result.error:
                 return result
             left = BinaryOperationNode(left, operator, right)

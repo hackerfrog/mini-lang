@@ -34,3 +34,10 @@ class Number:
                     'Division by zero'
                 )
             return Number(self.value / a_other.value), None
+
+    def power_by(self, a_other):
+        if isinstance(a_other, Number):
+            return Number(self.value ** a_other.value), None
+
+    def __repr__(self):
+        return str(self.value)

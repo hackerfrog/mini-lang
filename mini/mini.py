@@ -25,7 +25,4 @@ def run(a_file_name, a_command):
     interpreter = Interpreter()
     result = interpreter.visit(ast.node)
 
-    if result.error:
-        return None, result.error
-    else:
-        return result.result.value, None
+    return result.result, result.error
