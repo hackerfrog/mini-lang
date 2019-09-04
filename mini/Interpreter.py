@@ -7,27 +7,27 @@ from mini.Result import *
 ################################################################################
 
 class Interpreter:
-    def visit(self, a_node):
+    def visit(self, a_context, a_node):
         method_name = f'visit_{type(a_node).__name__}'
         method = getattr(self, method_name, self.no_visit_method)
-        return method(a_node)
+        return method(a_context, a_node)
 
-    def no_visit_method(self, a_node):
+    def no_visit_method(self, a_context, a_node):
         raise Exception(f'No visit_{type(a_node).__name__} method defined')
 
     ## VISIT METHODS ###########################################################
 
-    def visit_NumberNode(self, a_node):
+    def visit_NumberNode(self, a_context, a_node):
         return RunTimeResult().success(
-            Number(a_node.token.value).set_position(a_node.position_start, a_node.position_end)
+            Number(a_node.token.value).set_context(a_context).set_position(a_node.position_start, a_node.position_end)
         )
 
-    def visit_BinaryOperationNode(self, a_node):
+    def visit_BinaryOperationNode(self, a_context, a_node):
         response = RunTimeResult()
-        left = response.register(self.visit(a_node.left))
+        left = response.register(self.visit(a_context, a_node.left))
         if response.error:
             return response
-        right = response.register(self.visit(a_node.right))
+        right = response.register(self.visit(a_context, a_node.right))
         if response.error:
             return response
 
@@ -47,9 +47,9 @@ class Interpreter:
         else:
             return response.success(result.set_position(a_node.position_start, a_node.position_end))
 
-    def visit_UnaryOperationNode(self, a_node):
+    def visit_UnaryOperationNode(self, a_context, a_node):
         response = RunTimeResult()
-        number = response.register(self.visit(a_node.node))
+        number = response.register(self.visit(a_context, a_node.node))
         if response.error:
             return response
 

@@ -1,6 +1,7 @@
 from mini.Lexer import *
 from mini.Parser import *
 from mini.Interpreter import *
+from mini.Context import *
 
 ################################################################################
 ## RUN
@@ -23,6 +24,7 @@ def run(a_file_name, a_command):
 
     ## Run Program #############################################################
     interpreter = Interpreter()
-    result = interpreter.visit(ast.node)
+    context = Context('<program>')
+    result = interpreter.visit(context, ast.node)
 
     return result.result, result.error

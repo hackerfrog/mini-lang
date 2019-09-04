@@ -26,5 +26,24 @@ class InvalidSyntaxError(Error):
         super().__init__(a_position_start, a_position_end, 'Invalid Syntax', a_details)
 
 class RunTimeError(Error):
-    def __init__(self, a_position_start, a_position_end, a_details=''):
+    def __init__(self, a_context, a_position_start, a_position_end, a_details=''):
         super().__init__(a_position_start, a_position_end, 'Run Time Error', a_details)
+        self.context = a_context
+
+    def as_string(self):
+        result = self.traceback()
+        result += f'{self.error_name}: {self.details}'
+        result += '\n\n' + error_pointer(self.position_start.file_text, self.position_start, self.position_end)
+        return result
+
+    def traceback(self):
+        result = ''
+        position = self.position_start
+        context = self.context
+
+        while context:
+            result = f'    File: {position.file_name}, Line: {position.line + 1}, in {context.display_name}\n' + result
+            position = context.parent_entry_position
+            context = context.parent
+
+        return 'Traceback (most recent call last):\n' + result
