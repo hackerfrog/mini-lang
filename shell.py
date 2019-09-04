@@ -5,7 +5,10 @@ while True:
 
     if command in [':x', '::exit']:
         break
-    
+        
+    if not command.strip():
+    	continue
+
     result, error = mini.run('<stdin>', command)
 
     if error:

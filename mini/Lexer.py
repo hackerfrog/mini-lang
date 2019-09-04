@@ -21,6 +21,7 @@ class Lexer:
             self.current_character = self.text[self.current_position.index]
         else:
             self.current_character = None
+        return self
 
     def make_tokens(self):
         tokens = list()
