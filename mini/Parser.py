@@ -74,7 +74,7 @@ class Parser:
         return self.power()
 
     def term(self):
-        return self.binary_operation(self.factor, (TT_MULTIPLY, TT_DIVIDE))
+        return self.binary_operation(self.factor, (TT_MULTIPLY, TT_DIVIDE, TT_MOD))
 
     def expr(self):
         return self.binary_operation(self.term, (TT_PLUS, TT_MINUS))

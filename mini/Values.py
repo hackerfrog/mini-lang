@@ -41,6 +41,16 @@ class Number:
                 )
             return Number(self.value / a_other.value).set_context(self.context), None
 
+    def mod_by(self, a_other):
+        if isinstance(a_other, Number):
+            if a_other.value == 0:
+                return None, RunTimeError(
+                    self.context,
+                    a_other.position_start, a_other.position_end,
+                    'Mod by zero'
+                )
+            return Number(self.value % a_other.value).set_context(self.context), None
+
     def power_by(self, a_other):
         if isinstance(a_other, Number):
             return Number(self.value ** a_other.value).set_context(self.context), None

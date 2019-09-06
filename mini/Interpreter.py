@@ -39,6 +39,8 @@ class Interpreter:
             result, error = left.multiply_by(right)
         elif a_node.operator.type == TT_DIVIDE:
             result, error = left.division_by(right)
+        elif a_node.operator.type == TT_MOD:
+            result, error = left.mod_by(right)
         elif a_node.operator.type == TT_POWER:
             result, error = left.power_by(right)
 

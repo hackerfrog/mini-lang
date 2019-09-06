@@ -21,7 +21,7 @@ class Lexer:
             self.current_character = self.text[self.current_position.index]
         else:
             self.current_character = None
-            
+
     def make_tokens(self):
         tokens = list()
 
@@ -41,6 +41,9 @@ class Lexer:
                 self.advance()
             elif self.current_character == '/':
                 tokens.append(Token(TT_DIVIDE, a_position_start=self.current_position))
+                self.advance()
+            elif self.current_character == '%':
+                tokens.append(Token(TT_MOD, a_position_start=self.current_position))
                 self.advance()
             elif self.current_character == '^':
                 tokens.append(Token(TT_POWER, a_position_start=self.current_position))
