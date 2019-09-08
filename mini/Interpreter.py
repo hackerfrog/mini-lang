@@ -43,6 +43,10 @@ class Interpreter:
             result, error = left.mod_by(right)
         elif a_node.operator.type == TT_POWER:
             result, error = left.power_by(right)
+        elif a_node.operator.type == TT_LSHIFT:
+            result, error = left.leftShift_by(right)
+        elif a_node.operator.type == TT_RSHIFT:
+            result, error = left.rightShift_by(right)
 
         if error:
             return response.failure(error)
