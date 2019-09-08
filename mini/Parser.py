@@ -21,7 +21,7 @@ class Parser:
         return self.current_token
 
     def parse(self):
-        result = self.expr()
+        result = self.shift_expr()
         if not result.error and self.current_token.type != TT_EOF:
             return result.failure(InvalidSyntaxError(
                 self.current_token.position_start, self.current_token.position_end,
@@ -78,6 +78,9 @@ class Parser:
 
     def expr(self):
         return self.binary_operation(self.term, (TT_PLUS, TT_MINUS))
+    
+    def shift_expr(self):
+        return self.binary_operation(self.expr, (TT_LSHIFT, TT_RSHIFT))
 
     def binary_operation(self, a_functionA, a_operations, a_functionB = None):
         if a_functionB == None:

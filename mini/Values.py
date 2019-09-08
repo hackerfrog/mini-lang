@@ -54,6 +54,26 @@ class Number:
     def power_by(self, a_other):
         if isinstance(a_other, Number):
             return Number(self.value ** a_other.value).set_context(self.context), None
+    
+    def leftShift_by(self, a_other):
+        if isinstance(a_other, Number):
+            if a_other.value < 0:
+                return None, RunTimeError(
+                    self.context,
+                    a_other.position_start, a_other.position_end,
+                    'Negative shift'
+                )
+            return Number(self.value << a_other.value).set_context(self.context), None
+    
+    def rightShift_by(self, a_other):
+        if isinstance(a_other, Number):
+            if a_other.value < 0:
+                return None, RunTimeError(
+                    self.context,
+                    a_other.position_start, a_other.position_end,
+                    'Negative shift'
+                )
+            return Number(self.value >> a_other.value).set_context(self.context), None
 
     def __repr__(self):
         return str(self.value)

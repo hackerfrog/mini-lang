@@ -54,6 +54,10 @@ class Lexer:
             elif self.current_character == ')':
                 tokens.append(Token(TT_R_PAREN, a_position_start=self.current_position))
                 self.advance()
+            elif self.current_character == '<':
+                tokens.append(self.make_leftThen_oprators())
+            elif self.current_character == '>':
+                tokens.append(self.make_rightThen_oprators())
             else:
                 position_start = self.current_position.copy()
                 character = self.current_character
@@ -83,3 +87,33 @@ class Lexer:
             return Token(TT_INT, int(number_str), position_start, self.current_position)
         else:
             return Token(TT_FLOAT, float(number_str), position_start, self.current_position)
+
+    def make_leftThen_oprators(self):
+        operator = ''
+        position_start = self.current_position.copy()
+
+        if self.current_character == '<':
+            operator += self.current_character
+        self.advance()
+
+        if self.current_character == '<':
+            operator += self.current_character
+            self.advance()
+
+        if operator == '<<':
+            return Token(TT_LSHIFT, a_position_start=position_start, a_position_end=self.current_position)
+
+    def make_rightThen_oprators(self):
+        operator = ''
+        position_start = self.current_position.copy()
+
+        if self.current_character == '>':
+            operator += self.current_character
+        self.advance()
+
+        if self.current_character == '>':
+            operator += self.current_character
+            self.advance()
+
+        if operator == '>>':
+            return Token(TT_RSHIFT, a_position_start=position_start, a_position_end=self.current_position)
