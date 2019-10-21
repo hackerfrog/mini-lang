@@ -47,6 +47,12 @@ class Interpreter:
             result, error = left.leftShift_by(right)
         elif a_node.operator.type == TT_RSHIFT:
             result, error = left.rightShift_by(right)
+        elif a_node.operator.type == TT_BIT_AND:
+            result, error = left.bitAnd_by(right)
+        elif a_node.operator.type == TT_BIT_XOR:
+            result, error = left.bitXor_by(right)
+        elif a_node.operator.type == TT_BIT_OR:
+            result, error = left.bitOr_by(right)
 
         if error:
             return response.failure(error)
@@ -63,7 +69,7 @@ class Interpreter:
 
         if a_node.operator.type == TT_MINUS:
             number, error = number.multiply_by(Number(-1))
-        elif a_node.operator.type == TT_TILDE:
+        elif a_node.operator.type == TT_BIT_NOT:
             number, error = number.bitNot_by()
 
         if error:

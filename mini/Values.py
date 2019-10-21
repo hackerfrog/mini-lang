@@ -78,5 +78,17 @@ class Number:
     def bitNot_by(self):
         return Number(~(self.value)).set_context(self.context), None
 
+    def bitAnd_by(self, a_other):
+        if isinstance(a_other, Number):
+            return Number(self.value & a_other.value).set_context(self.context), None
+
+    def bitXor_by(self, a_other):
+        if isinstance(a_other, Number):
+            return Number(self.value ^ a_other.value).set_context(self.context), None
+
+    def bitOr_by(self, a_other):
+        if isinstance(a_other, Number):
+            return Number(self.value | a_other.value).set_context(self.context), None
+
     def __repr__(self):
         return str(self.value)

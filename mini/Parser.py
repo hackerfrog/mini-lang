@@ -21,7 +21,7 @@ class Parser:
         return self.current_token
 
     def parse(self):
-        result = self.shift_expr()
+        result = self.bit_or()
         if not result.error and self.current_token.type != TT_EOF:
             return result.failure(InvalidSyntaxError(
                 self.current_token.position_start, self.current_token.position_end,
@@ -64,7 +64,7 @@ class Parser:
         result = ParserResult()
         token = self.current_token
 
-        if token.type in (TT_TILDE,):
+        if token.type in (TT_BIT_NOT,):
             result.register(self.advance())
             bit_not = result.register(self.bit_not())
             if result.error:
@@ -94,6 +94,15 @@ class Parser:
 
     def shift_expr(self):
         return self.binary_operation(self.expr, (TT_LSHIFT, TT_RSHIFT))
+
+    def bit_and(self):
+        return self.binary_operation(self.shift_expr, (TT_BIT_AND, ))
+
+    def bit_xor(self):
+        return self.binary_operation(self.bit_and, (TT_BIT_XOR, ))
+
+    def bit_or(self):
+        return self.binary_operation(self.bit_xor, (TT_BIT_OR, ))
 
     def binary_operation(self, a_functionA, a_operations, a_functionB = None):
         if a_functionB == None:

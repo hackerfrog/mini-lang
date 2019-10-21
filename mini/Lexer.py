@@ -55,7 +55,16 @@ class Lexer:
             elif self.current_character == '>':
                 tokens.append(self.make_rightThen_operators())
             elif self.current_character == '~':
-                tokens.append(Token(TT_TILDE, a_position_start=self.current_position))
+                tokens.append(Token(TT_BIT_NOT, a_position_start=self.current_position))
+                self.advance()
+            elif self.current_character == '&':
+                tokens.append(Token(TT_BIT_AND, a_position_start=self.current_position))
+                self.advance()
+            elif self.current_character == '^':
+                tokens.append(Token(TT_BIT_XOR, a_position_start=self.current_position))
+                self.advance()
+            elif self.current_character == '|':
+                tokens.append(Token(TT_BIT_OR, a_position_start=self.current_position))
                 self.advance()
             else:
                 position_start = self.current_position.copy()
