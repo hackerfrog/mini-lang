@@ -63,6 +63,8 @@ class Interpreter:
 
         if a_node.operator.type == TT_MINUS:
             number, error = number.multiply_by(Number(-1))
+        elif a_node.operator.type == TT_TILDE:
+            number, error = number.bitNot_by()
 
         if error:
             return response.failure(error)

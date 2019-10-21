@@ -1,4 +1,17 @@
 from mini import mini
+import sys
+
+args = sys.argv[1:]
+
+verbose = False
+
+if '-v' in args:
+    print('''
+,_ _    ,_      |  _  ,_   _
+| | | | | | | - | |_| | | |
+| | | | | | |   | | | | | |_;
+               - verbose [ON]
+''')
 
 while True:
     command = input('>> ')

@@ -60,6 +60,19 @@ class Parser:
     def power(self):
         return self.binary_operation(self.atom, (TT_POWER, ), self.factor)
 
+    def bit_not(self):
+        result = ParserResult()
+        token = self.current_token
+
+        if token.type in (TT_TILDE,):
+            result.register(self.advance())
+            bit_not = result.register(self.bit_not())
+            if result.error:
+                return result
+            return result.success(UnaryOperationNode(token, bit_not))
+
+        return self.power()
+
     def factor(self):
         result = ParserResult()
         token = self.current_token
@@ -71,14 +84,14 @@ class Parser:
                 return result
             return result.success(UnaryOperationNode(token, factor))
 
-        return self.power()
+        return self.bit_not()
 
     def term(self):
         return self.binary_operation(self.factor, (TT_MULTIPLY, TT_DIVIDE, TT_MOD))
 
     def expr(self):
         return self.binary_operation(self.term, (TT_PLUS, TT_MINUS))
-    
+
     def shift_expr(self):
         return self.binary_operation(self.expr, (TT_LSHIFT, TT_RSHIFT))
 

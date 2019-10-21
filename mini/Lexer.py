@@ -37,16 +37,12 @@ class Lexer:
                 tokens.append(Token(TT_MINUS, a_position_start=self.current_position))
                 self.advance()
             elif self.current_character == '*':
-                tokens.append(Token(TT_MULTIPLY, a_position_start=self.current_position))
-                self.advance()
+                tokens.append(self.make_astrict_operators())
             elif self.current_character == '/':
                 tokens.append(Token(TT_DIVIDE, a_position_start=self.current_position))
                 self.advance()
             elif self.current_character == '%':
                 tokens.append(Token(TT_MOD, a_position_start=self.current_position))
-                self.advance()
-            elif self.current_character == '^':
-                tokens.append(Token(TT_POWER, a_position_start=self.current_position))
                 self.advance()
             elif self.current_character == '(':
                 tokens.append(Token(TT_L_PAREN, a_position_start=self.current_position))
@@ -55,9 +51,12 @@ class Lexer:
                 tokens.append(Token(TT_R_PAREN, a_position_start=self.current_position))
                 self.advance()
             elif self.current_character == '<':
-                tokens.append(self.make_leftThen_oprators())
+                tokens.append(self.make_leftThen_operators())
             elif self.current_character == '>':
-                tokens.append(self.make_rightThen_oprators())
+                tokens.append(self.make_rightThen_operators())
+            elif self.current_character == '~':
+                tokens.append(Token(TT_TILDE, a_position_start=self.current_position))
+                self.advance()
             else:
                 position_start = self.current_position.copy()
                 character = self.current_character
@@ -88,7 +87,25 @@ class Lexer:
         else:
             return Token(TT_FLOAT, float(number_str), position_start, self.current_position)
 
-    def make_leftThen_oprators(self):
+    def make_astrict_operators(self):
+        operator = ''
+        position_start = self.current_position.copy()
+
+        if self.current_character == '*':
+            operator += self.current_character
+        self.advance()
+
+        if self.current_character == '*':
+            operator += self.current_character
+            self.advance()
+
+        if operator == '*':
+            return Token(TT_MULTIPLY, a_position_start=position_start)
+        elif operator == '**':
+            return Token(TT_POWER, a_position_start=position_start, a_position_end=self.current_position)
+
+
+    def make_leftThen_operators(self):
         operator = ''
         position_start = self.current_position.copy()
 
@@ -103,7 +120,7 @@ class Lexer:
         if operator == '<<':
             return Token(TT_LSHIFT, a_position_start=position_start, a_position_end=self.current_position)
 
-    def make_rightThen_oprators(self):
+    def make_rightThen_operators(self):
         operator = ''
         position_start = self.current_position.copy()
 
