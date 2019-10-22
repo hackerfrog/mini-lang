@@ -34,6 +34,7 @@ class Interpreter:
                 f"'{variable}' is not defined"
             ))
 
+        value = value.copy().set_position(a_node.position_start, a_node.position_end)
         return response.success(value)
 
     def visit_VariableAssignNode(self, a_context, a_node):

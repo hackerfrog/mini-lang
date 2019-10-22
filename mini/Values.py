@@ -90,5 +90,11 @@ class Number:
         if isinstance(a_other, Number):
             return Number(self.value | a_other.value).set_context(self.context), None
 
+    def copy(self):
+        copy = Number(self.value)
+        copy.set_position(self.position_start, self.position_end)
+        copy.set_context(self.context)
+        return copy
+
     def __repr__(self):
         return str(self.value)

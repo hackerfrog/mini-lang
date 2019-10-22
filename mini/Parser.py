@@ -36,18 +36,22 @@ class Parser:
         token = self.current_token
 
         if token.type in (TT_INT, TT_FLOAT):
-            result.register(self.advance())
+            result.register_advancement()
+            self.advance()
             return result.success(NumberNode(token))
         elif token.type == TT_IDENTIFIER:
-            result.register(self.advance())
+            result.register_advancement()
+            self.advance()
             return result.success(VariableAccessNode(token))
         elif token.type == TT_L_PAREN:
-            result.register(self.advance())
+            result.register_advancement()
+            self.advance()
             expr = result.register(self.expr())
             if result.error:
                 return result
             if self.current_token.type == TT_R_PAREN:
-                result.register(self.advance())
+                result.register_advancement()
+                self.advance()
                 return result.success(expr)
             else:
                 return result.failure(InvalidSyntaxError(
@@ -57,7 +61,7 @@ class Parser:
 
         return result.failure(InvalidSyntaxError(
             token.position_start, token.position_end,
-            "Expected type<int>, type<float>, +, - or ("
+            "Expected type<int>, type<float>, IDENTIFIER, +, - or ("
         ))
 
     def power(self):
@@ -68,7 +72,8 @@ class Parser:
         token = self.current_token
 
         if token.type in (TT_BIT_NOT,):
-            result.register(self.advance())
+            result.register_advancement()
+            self.advance()
             bit_not = result.register(self.bit_not())
             if result.error:
                 return result
@@ -81,7 +86,8 @@ class Parser:
         token = self.current_token
 
         if token.type in (TT_PLUS, TT_MINUS):
-            result.register(self.advance())
+            result.register_advancement()
+            self.advance()
             factor = result.register(self.factor())
             if result.error:
                 return result
@@ -110,7 +116,8 @@ class Parser:
     def assign(self):
         result = ParserResult()
         if self.current_token.matches(TT_KEYWORD, 'VAR'):
-            result.register(self.advance())
+            result.register_advancement()
+            self.advance()
 
             if self.current_token.type != TT_IDENTIFIER:
                 return result.failure(InvalidSyntaxError(
@@ -119,7 +126,8 @@ class Parser:
                 ))
 
             variable = self.current_token
-            result.register(self.advance())
+            result.register_advancement()
+            self.advance()
 
             if self.current_token.type != TT_EQUAL:
                 return result.failure(InvalidSyntaxError(
@@ -127,12 +135,21 @@ class Parser:
                     "Expected '='"
                 ))
 
-            result.register(self.advance())
+            result.register_advancement()
+            self.advance()
             bit_or = result.register(self.bit_or())
             if result.error:
                 return result
             return result.success(VariableAssignNode(variable, bit_or))
-        return self.bit_or()
+
+        node = result.register(self.bit_or())
+        if result.error:
+            return result.failure(InvalidSyntaxError(
+                self.current_token.position_start, self.current_token.position_end,
+                "Expected type<int>, type<float>, IDENTIFIER, VAR, +, - or ("
+            ))
+        return result.success(node)
+
 
     def binary_operation(self, a_functionA, a_operations, a_functionB = None):
         if a_functionB == None:
@@ -145,7 +162,8 @@ class Parser:
 
         while self.current_token.type in a_operations:
             operator = self.current_token
-            result.register(self.advance())
+            result.register_advancement()
+            self.advance()
             right = result.register(a_functionB())
             if result.error:
                 return result
