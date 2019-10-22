@@ -21,7 +21,7 @@ class Parser:
         return self.current_token
 
     def parse(self):
-        result = self.bit_or()
+        result = self.assign()
         if not result.error and self.current_token.type != TT_EOF:
             return result.failure(InvalidSyntaxError(
                 self.current_token.position_start, self.current_token.position_end,
@@ -38,6 +38,9 @@ class Parser:
         if token.type in (TT_INT, TT_FLOAT):
             result.register(self.advance())
             return result.success(NumberNode(token))
+        elif token.type == TT_IDENTIFIER:
+            result.register(self.advance())
+            return result.success(VariableAccessNode(token))
         elif token.type == TT_L_PAREN:
             result.register(self.advance())
             expr = result.register(self.expr())
@@ -103,6 +106,33 @@ class Parser:
 
     def bit_or(self):
         return self.binary_operation(self.bit_xor, (TT_BIT_OR, ))
+
+    def assign(self):
+        result = ParserResult()
+        if self.current_token.matches(TT_KEYWORD, 'VAR'):
+            result.register(self.advance())
+
+            if self.current_token.type != TT_IDENTIFIER:
+                return result.failure(InvalidSyntaxError(
+                    self.current_token.position_start, self.current_token.position_end,
+                    'Expected IDENTIFIER'
+                ))
+
+            variable = self.current_token
+            result.register(self.advance())
+
+            if self.current_token.type != TT_EQUAL:
+                return result.failure(InvalidSyntaxError(
+                    self.current_token.position_start, self.current_token.position_end,
+                    "Expected '='"
+                ))
+
+            result.register(self.advance())
+            bit_or = result.register(self.bit_or())
+            if result.error:
+                return result
+            return result.success(VariableAssignNode(variable, bit_or))
+        return self.bit_or()
 
     def binary_operation(self, a_functionA, a_operations, a_functionB = None):
         if a_functionB == None:

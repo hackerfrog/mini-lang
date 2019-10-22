@@ -2,10 +2,15 @@ from mini.Lexer import *
 from mini.Parser import *
 from mini.Interpreter import *
 from mini.Context import *
+from mini.SymbolTable import *
+from mini.Values import *
 
 ################################################################################
 ## RUN
 ################################################################################
+
+global_symbol_table = SymbolTable()
+global_symbol_table.set("NULL", Number(0))
 
 def run(a_file_name, a_command):
     lexer = Lexer(a_file_name, a_command)
@@ -25,6 +30,7 @@ def run(a_file_name, a_command):
     ## Run Program #############################################################
     interpreter = Interpreter()
     context = Context('<program>')
+    context.symbol_table = global_symbol_table
     result = interpreter.visit(context, ast.node)
 
     return result.result, result.error

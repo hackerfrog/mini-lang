@@ -1,8 +1,12 @@
+import string
+
 ################################################################################
 ## CONSTANTS
 ################################################################################
 
 DIGITS              = '0123456789'
+LETTERS             = string.ascii_letters
+LETTERS_DIGITS      = LETTERS + DIGITS
 
 TT_INT              = 'INT'
 TT_FLOAT            = 'FLOAT'
@@ -12,6 +16,7 @@ TT_MULTIPLY         = 'MUL'
 TT_DIVIDE           = 'DIV'
 TT_MOD              = 'MOD'
 TT_POWER            = 'POW'
+TT_EQUAL            = 'EQUAL'
 TT_L_PAREN          = 'LPAREN'
 TT_R_PAREN          = 'RPAREN'
 TT_LSHIFT           = 'LSHIFT'
@@ -21,3 +26,10 @@ TT_BIT_AND          = 'BIT-AND'
 TT_BIT_XOR          = 'BIT-XOR'
 TT_BIT_OR           = 'BIT-OR'
 TT_EOF              = 'EOF'
+TT_IDENTIFIER       = 'IDENTIFIER'
+TT_KEYWORD          = 'KEYWORD'
+
+
+KEYWORDS            = [
+    'VAR'
+]

@@ -30,6 +30,8 @@ class Lexer:
                 self.advance()
             elif self.current_character in DIGITS:
                 tokens.append(self.make_number())
+            elif self.current_character in LETTERS:
+                tokens.append(self.make_identifier())
             elif self.current_character == '+':
                 tokens.append(Token(TT_PLUS, a_position_start=self.current_position))
                 self.advance()
@@ -43,6 +45,9 @@ class Lexer:
                 self.advance()
             elif self.current_character == '%':
                 tokens.append(Token(TT_MOD, a_position_start=self.current_position))
+                self.advance()
+            elif self.current_character == '=':
+                tokens.append(Token(TT_EQUAL, a_position_start=self.current_position))
                 self.advance()
             elif self.current_character == '(':
                 tokens.append(Token(TT_L_PAREN, a_position_start=self.current_position))
@@ -95,6 +100,17 @@ class Lexer:
             return Token(TT_INT, int(number_str), position_start, self.current_position)
         else:
             return Token(TT_FLOAT, float(number_str), position_start, self.current_position)
+
+    def make_identifier(self):
+        identifer = ''
+        position_start = self.current_position.copy()
+
+        while self.current_character != None and self.current_character in LETTERS_DIGITS + '_':
+            identifer += self.current_character
+            self.advance()
+
+        token_type = TT_KEYWORD if identifer in KEYWORDS else TT_IDENTIFIER
+        return Token(token_type, identifer, position_start, self.current_position)
 
     def make_astrict_operators(self):
         operator = ''

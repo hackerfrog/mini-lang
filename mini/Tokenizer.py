@@ -15,6 +15,9 @@ class Token:
         if a_position_end:
             self.position_end = a_position_end.copy()
 
+    def matches(self, a_type, a_value):
+        return self.type == a_type and self.value == a_value
+
     def __repr__(self):
         if self.value:
             return f'{self.type}:{self.value}'

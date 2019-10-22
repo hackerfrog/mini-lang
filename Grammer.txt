@@ -1,3 +1,5 @@
+assign      : KEYWORD:VAR IDENTIFIER (EQUAL) bit-or
+
 bit-or      : bit-xor ((BIT-OR) bit-xor)*
 
 bit-xor     : bit-and ((BIT-XOR) bit-and)*
@@ -18,5 +20,5 @@ bit-not     : (BIT-NOT) bit-not
 
 power       : atom (POW factor)*
 
-atom        : INT|FLOAT
+atom        : INT|FLOAT|IDENTIFIER
             : LPAREN expr RPAREN

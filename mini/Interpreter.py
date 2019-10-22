@@ -22,6 +22,30 @@ class Interpreter:
             Number(a_node.token.value).set_context(a_context).set_position(a_node.position_start, a_node.position_end)
         )
 
+    def visit_VariableAccessNode(self, a_context, a_node):
+        response = RunTimeResult()
+        variable = a_node.variable.value
+        value = a_context.symbol_table.get(variable)
+
+        if not value:
+            return response.failure(RunTimeError(
+                a_context,
+                a_node.position_start, a_node.position_end,
+                f"'{variable}' is not defined"
+            ))
+
+        return response.success(value)
+
+    def visit_VariableAssignNode(self, a_context, a_node):
+        response = RunTimeResult()
+        variable = a_node.variable.value
+        value = response.register(self.visit(a_context, a_node.value))
+        if response.error:
+            return response
+
+        a_context.symbol_table.set(variable, value)
+        return response.success(value)
+
     def visit_BinaryOperationNode(self, a_context, a_node):
         response = RunTimeResult()
         left = response.register(self.visit(a_context, a_node.left))

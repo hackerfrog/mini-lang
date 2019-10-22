@@ -1,5 +1,5 @@
 ################################################################################
-## INTERPRETER
+## CONTEXT
 ################################################################################
 
 class Context:
@@ -7,3 +7,4 @@ class Context:
         self.display_name = a_display_name
         self.parent = a_parent
         self.parent_entry_position = a_parent_entry_position
+        self.symbol_table = None
