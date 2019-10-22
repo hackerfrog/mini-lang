@@ -90,6 +90,41 @@ class Number:
         if isinstance(a_other, Number):
             return Number(self.value | a_other.value).set_context(self.context), None
 
+    def doubleEqual_by(self, a_other):
+        if isinstance(a_other, Number):
+            return Number(int(self.value == a_other.value)).set_context(self.context), None
+
+    def notEqual_by(self, a_other):
+        if isinstance(a_other, Number):
+            return Number(int(self.value != a_other.value)).set_context(self.context), None
+
+    def lessThan_by(self, a_other):
+        if isinstance(a_other, Number):
+            return Number(int(self.value < a_other.value)).set_context(self.context), None
+
+    def greaterThan_by(self, a_other):
+        if isinstance(a_other, Number):
+            return Number(int(self.value > a_other.value)).set_context(self.context), None
+
+    def lessThanEqual_by(self, a_other):
+        if isinstance(a_other, Number):
+            return Number(int(self.value <= a_other.value)).set_context(self.context), None
+
+    def greaterThanEqual_by(self, a_other):
+        if isinstance(a_other, Number):
+            return Number(int(self.value >= a_other.value)).set_context(self.context), None
+
+    def boolAnd_by(self, a_other):
+        if isinstance(a_other, Number):
+            return Number(int(self.value and a_other.value)).set_context(self.context), None
+
+    def boolOr_by(self, a_other):
+        if isinstance(a_other, Number):
+            return Number(int(self.value or a_other.value)).set_context(self.context), None
+
+    def boolNot_by(self):
+        return Number(1 if self.value == 0 else 0).set_context(self.context), None
+
     def copy(self):
         copy = Number(self.value)
         copy.set_position(self.position_start, self.position_end)

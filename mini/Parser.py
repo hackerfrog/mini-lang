@@ -113,6 +113,31 @@ class Parser:
     def bit_or(self):
         return self.binary_operation(self.bit_xor, (TT_BIT_OR, ))
 
+    def comp_expr(self):
+        result = ParserResult()
+        if self.current_token.matches(TT_KEYWORD, 'NOT'):
+            token = self.current_token
+            result.register_advancement()
+            self.advance()
+
+            comp_expr = result.register(self.comp_expr())
+            if result.error:
+                return result
+            return result.success(UnaryOperationNode(token, comp_expr))
+
+        node = result.register(self.binary_operation(self.bit_or, (TT_DOUBLE_EQUAL, TT_NOT_EQUAL, TT_LESS_THAN, TT_GREATER_THAN, TT_LESS_THAN_EQUAL, TT_GREATER_THAN_EQUAL)))
+
+        if result.error:
+            return result.failure(InvalidSyntaxError(
+                self.current_token.position_start, self.current_token.position_end,
+                "Expected type<int>, type<float>, IDENTIFIER, +, -, ( or keyword<NOT>"
+            ))
+
+        return result.success(node)
+
+    def bool_expr(self):
+        return self.binary_operation(self.comp_expr, ((TT_KEYWORD, 'AND'), (TT_KEYWORD, 'OR')))
+
     def assign(self):
         result = ParserResult()
         if self.current_token.matches(TT_KEYWORD, 'VAR'):
@@ -137,12 +162,12 @@ class Parser:
 
             result.register_advancement()
             self.advance()
-            bit_or = result.register(self.bit_or())
+            bool_expr = result.register(self.bool_expr())
             if result.error:
                 return result
-            return result.success(VariableAssignNode(variable, bit_or))
+            return result.success(VariableAssignNode(variable, bool_expr))
 
-        node = result.register(self.bit_or())
+        node = result.register(self.bool_expr())
         if result.error:
             return result.failure(InvalidSyntaxError(
                 self.current_token.position_start, self.current_token.position_end,
@@ -160,7 +185,7 @@ class Parser:
         if result.error:
             return result
 
-        while self.current_token.type in a_operations:
+        while self.current_token.type in a_operations or (self.current_token.type, self.current_token.value) in a_operations:
             operator = self.current_token
             result.register_advancement()
             self.advance()

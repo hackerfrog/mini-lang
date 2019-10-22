@@ -78,6 +78,22 @@ class Interpreter:
             result, error = left.bitXor_by(right)
         elif a_node.operator.type == TT_BIT_OR:
             result, error = left.bitOr_by(right)
+        elif a_node.operator.type == TT_DOUBLE_EQUAL:
+            result, error = left.doubleEqual_by(right)
+        elif a_node.operator.type == TT_NOT_EQUAL:
+            result, error = left.notEqual_by(right)
+        elif a_node.operator.type == TT_LESS_THAN:
+            result, error = left.lessThan_by(right)
+        elif a_node.operator.type == TT_GREATER_THAN:
+            result, error = left.greaterThan_by(right)
+        elif a_node.operator.type == TT_LESS_THAN_EQUAL:
+            result, error = left.lessThanEqual_by(right)
+        elif a_node.operator.type == TT_GREATER_THAN_EQUAL:
+            result, error = left.greaterThanEqual_by(right)
+        elif a_node.operator.matches(TT_KEYWORD, 'AND'):
+            result, error = left.boolAnd_by(right)
+        elif a_node.operator.matches(TT_KEYWORD, 'OR'):
+            result, error = left.boolOr_by(right)
 
         if error:
             return response.failure(error)
@@ -96,6 +112,8 @@ class Interpreter:
             number, error = number.multiply_by(Number(-1))
         elif a_node.operator.type == TT_BIT_NOT:
             number, error = number.bitNot_by()
+        elif a_node.operator.matches(TT_KEYWORD, 'NOT'):
+            number, error = number.boolNot_by()
 
         if error:
             return response.failure(error)

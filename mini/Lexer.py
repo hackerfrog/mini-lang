@@ -38,16 +38,11 @@ class Lexer:
             elif self.current_character == '-':
                 tokens.append(Token(TT_MINUS, a_position_start=self.current_position))
                 self.advance()
-            elif self.current_character == '*':
-                tokens.append(self.make_astrict_operators())
             elif self.current_character == '/':
                 tokens.append(Token(TT_DIVIDE, a_position_start=self.current_position))
                 self.advance()
             elif self.current_character == '%':
                 tokens.append(Token(TT_MOD, a_position_start=self.current_position))
-                self.advance()
-            elif self.current_character == '=':
-                tokens.append(Token(TT_EQUAL, a_position_start=self.current_position))
                 self.advance()
             elif self.current_character == '(':
                 tokens.append(Token(TT_L_PAREN, a_position_start=self.current_position))
@@ -55,10 +50,6 @@ class Lexer:
             elif self.current_character == ')':
                 tokens.append(Token(TT_R_PAREN, a_position_start=self.current_position))
                 self.advance()
-            elif self.current_character == '<':
-                tokens.append(self.make_leftThen_operators())
-            elif self.current_character == '>':
-                tokens.append(self.make_rightThen_operators())
             elif self.current_character == '~':
                 tokens.append(Token(TT_BIT_NOT, a_position_start=self.current_position))
                 self.advance()
@@ -71,6 +62,19 @@ class Lexer:
             elif self.current_character == '|':
                 tokens.append(Token(TT_BIT_OR, a_position_start=self.current_position))
                 self.advance()
+            elif self.current_character == '*':
+                tokens.append(self.make_astrict_operators())
+            elif self.current_character == '!':
+                token, error = self.make_notEqual_operator()
+                if error:
+                    return [], error
+                tokens.append(token)
+            elif self.current_character == '=':
+                tokens.append(self.make_equals_operators())
+            elif self.current_character == '<':
+                tokens.append(self.make_lessThan_operators())
+            elif self.current_character == '>':
+                tokens.append(self.make_greaterThan_operators())
             else:
                 position_start = self.current_position.copy()
                 character = self.current_character
@@ -129,33 +133,52 @@ class Lexer:
         elif operator == '**':
             return Token(TT_POWER, a_position_start=position_start, a_position_end=self.current_position)
 
-
-    def make_leftThen_operators(self):
-        operator = ''
+    def make_notEqual_operator(self):
         position_start = self.current_position.copy()
+        self.advance()
 
-        if self.current_character == '<':
-            operator += self.current_character
+        if self.current_character == '=':
+            self.advance()
+            return Token(TT_NOT_EQUAL, a_position_start=position_start, a_position_end=self.current_position), None
+
+        self.advance()
+        return None, ExpectedCharacterError(position_start, self.current_position, "'=' (after !)")
+
+    def make_equals_operators(self):
+        token_type = TT_EQUAL
+        position_start = self.current_position.copy()
+        self.advance()
+
+        if self.current_character == '=':
+            self.advance()
+            token_type = TT_DOUBLE_EQUAL
+
+        return Token(token_type, a_position_start=position_start, a_position_end=self.current_position)
+
+    def make_lessThan_operators(self):
+        token_type = TT_LESS_THAN
+        position_start = self.current_position.copy()
         self.advance()
 
         if self.current_character == '<':
-            operator += self.current_character
             self.advance()
+            token_type = TT_LSHIFT
+        elif self.current_character == '=':
+            self.advance()
+            token_type = TT_LESS_THAN_EQUAL
 
-        if operator == '<<':
-            return Token(TT_LSHIFT, a_position_start=position_start, a_position_end=self.current_position)
+        return Token(token_type, a_position_start=position_start, a_position_end=self.current_position)
 
-    def make_rightThen_operators(self):
-        operator = ''
+    def make_greaterThan_operators(self):
+        token_type = TT_GREATER_THAN
         position_start = self.current_position.copy()
-
-        if self.current_character == '>':
-            operator += self.current_character
         self.advance()
 
         if self.current_character == '>':
-            operator += self.current_character
             self.advance()
+            token_type = TT_RSHIFT
+        elif self.current_character == '=':
+            self.advance()
+            token_type = TT_GREATER_THAN_EQUAL
 
-        if operator == '>>':
-            return Token(TT_RSHIFT, a_position_start=position_start, a_position_end=self.current_position)
+        return Token(token_type, a_position_start=position_start, a_position_end=self.current_position)
