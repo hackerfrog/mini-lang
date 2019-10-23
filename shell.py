@@ -26,5 +26,5 @@ while True:
 
     if error:
         print(error.as_string())
-    else:
+    elif result:
         print(result)

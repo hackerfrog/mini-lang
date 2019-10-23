@@ -27,3 +27,6 @@ power       : atom (POW factor)*
 
 atom        : INT|FLOAT|IDENTIFIER
             : LPAREN expr RPAREN
+            : if-expr
+
+if-expr     : KEYWORD:IF assign KEYWORD:THEN assign (KEYWORD:ELIF assign KEYWORD:THEN assign)* (KEYWORD:ELSE assign)?

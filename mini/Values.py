@@ -125,6 +125,9 @@ class Number:
     def boolNot_by(self):
         return Number(1 if self.value == 0 else 0).set_context(self.context), None
 
+    def is_true(self):
+        return self.value != 0
+
     def copy(self):
         copy = Number(self.value)
         copy.set_position(self.position_start, self.position_end)

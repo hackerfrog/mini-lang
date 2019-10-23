@@ -119,3 +119,25 @@ class Interpreter:
             return response.failure(error)
         else:
             return response.success(number.set_position(a_node.position_start, a_node.position_end))
+
+    def visit_IfElseNode(self, a_context, a_node):
+        response = RunTimeResult()
+
+        for condition, assign in a_node.cases:
+            condition_value = response.register(self.visit(a_context, condition))
+            if response.error:
+                return response
+
+            if condition_value.is_true():
+                assign_value = response.register(self.visit(a_context, assign))
+                if response.error:
+                    return response
+                return response.success(assign_value)
+
+        if a_node.else_case:
+            else_value = response.register(self.visit(a_context, a_node.else_case))
+            if response.error:
+                return response
+            return response.success(else_value)
+
+        return response.success(None)

@@ -31,6 +31,71 @@ class Parser:
 
     ## GRAMMER RULES ###########################################################
 
+    def if_expr(self):
+        result = ParserResult()
+        cases = []
+        else_case = None
+
+        if not self.current_token.matches(TT_KEYWORD, 'IF'):
+            return result.failure(InvalidSyntaxError(
+                self.current_token.position_start, self.current_token.position_end,
+                f"Expected keyword<IF>"
+            ))
+
+        result.register_advancement()
+        self.advance()
+
+        condition = result.register(self.assign())
+        if result.error:
+            return result
+
+        if not self.current_token.matches(TT_KEYWORD, 'THEN'):
+            return res.failure(InvalidSyntaxError(
+                self.current_token.position_start, self.current_token.position_end,
+                f"Expected keyword<THEN>"
+            ))
+
+        result.register_advancement()
+        self.advance()
+
+        assign = result.register(self.assign())
+        if result.error:
+            return result
+        cases.append((condition, assign))
+
+        while self.current_token.matches(TT_KEYWORD, 'ELIF'):
+            result.register_advancement()
+            self.advance()
+
+            condition = result.register(self.assign())
+            if result.error:
+                return result
+
+            if not self.current_token.matches(TT_KEYWORD, 'THEN'):
+                return result.failure(InvalidSyntaxError(
+                    self.current_token.position_start, self.current_token.position_end,
+                    f"Expected keyword<THEN>"
+                ))
+
+            result.register_advancement()
+            self.advance()
+
+            assign = result.register(self.assign())
+            if result.error:
+                return result
+            cases.append((condition, assign))
+
+        if self.current_token.matches(TT_KEYWORD, 'ELSE'):
+            result.register_advancement()
+            self.advance()
+
+            assign = result.register(self.assign())
+            if result.error:
+                return result
+            else_case = assign
+
+        return result.success(IfElseNode(cases, else_case))
+
     def atom(self):
         result = ParserResult()
         token = self.current_token
@@ -58,6 +123,11 @@ class Parser:
                     self.current_token.position_start, self.current_token.position_end,
                     "Expected ')'"
                 ))
+        elif token.matches(TT_KEYWORD, 'IF'):
+            if_expr = result.register(self.if_expr())
+            if result.error:
+                return result
+            return result.success(if_expr)
 
         return result.failure(InvalidSyntaxError(
             token.position_start, token.position_end,

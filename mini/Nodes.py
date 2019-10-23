@@ -44,3 +44,11 @@ class UnaryOperationNode:
 
     def __repr__(self):
         return f'({self.operator}, {self.node})'
+
+class IfElseNode:
+    def __init__(self, a_cases, a_else_case):
+        self.cases = a_cases
+        self.else_case = a_else_case
+
+        self.position_start = self.cases[0][0].position_start
+        self.position_end = (self.else_case or self.cases[len(self.cases) - 1][0]).position_end
