@@ -52,3 +52,22 @@ class IfElseNode:
 
         self.position_start = self.cases[0][0].position_start
         self.position_end = (self.else_case or self.cases[len(self.cases) - 1][0]).position_end
+
+class ForLoopNode:
+    def __init__(self, a_identifier, a_iter_from, a_iter_to, a_steps, a_body):
+        self.identifier = a_identifier
+        self.iter_from = a_iter_from
+        self.iter_to = a_iter_to
+        self.steps = a_steps
+        self.body = a_body
+
+        self.position_start = self.identifier.position_start
+        self.position_end = self.body.position_end
+
+class WhileLoopNode:
+    def __init__(self, a_condition, a_body):
+        self.condition = a_condition
+        self.body = a_body
+
+        self.position_start = self.condition.position_start
+        self.position_end = self.body.position_end

@@ -141,3 +141,53 @@ class Interpreter:
             return response.success(else_value)
 
         return response.success(None)
+
+    def visit_ForLoopNode(self, a_context, a_node):
+        response = RunTimeResult()
+
+        iter_from = response.register(self.visit(a_context, a_node.iter_from))
+        if response.error:
+            return response
+
+        iter_to = response.register(self.visit(a_context, a_node.iter_to))
+        if response.error:
+            return response
+
+        if a_node.steps:
+            steps = response.register(self.visit(a_context, a_node.steps))
+            if response.error:
+                return response
+        else:
+            steps = Number(1)
+
+        i = iter_from.value
+
+        if steps.value >= 0:
+            condition = lambda: i < iter_to.value
+        else:
+            condition = lambda: i > iter_to.value
+
+        while condition():
+            a_context.symbol_table.set(a_node.identifier.value, Number(i))
+            i += steps.value
+
+            response.register(self.visit(a_context, a_node.body))
+            if response.error:
+                return response
+        return response.success(None)
+
+    def visit_WhileLoopNode(self, a_context, a_node):
+        response = RunTimeResult()
+
+        while True:
+            condition = response.register(self.visit(a_context, a_node.condition))
+            if response.error:
+                return response
+
+            if not condition.is_true():
+                break
+
+            response.register(self.visit(a_context, a_node.body))
+            if response.error:
+                return response
+        return response.success(None)

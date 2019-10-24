@@ -31,6 +31,130 @@ class Parser:
 
     ## GRAMMER RULES ###########################################################
 
+    def for_expr(self):
+        result = ParserResult()
+
+        if not self.current_token.matches(TT_KEYWORD, 'FOR'):
+            return result.failure(InvalidSyntaxError(
+                self.current_token.position_start, self.current_token.position_end,
+                f"Expected keyword<FOR>"
+            ))
+
+        result.register_advancement()
+        self.advance()
+
+        if self.current_token.type != TT_IDENTIFIER:
+            return result.failure(InvalidSyntaxError(
+                self.current_token.position_start, self.current_token.position_end,
+                f"Expected IDENTIFIER"
+            ))
+
+        identifier = self.current_token
+        result.register_advancement()
+        self.advance()
+
+        if self.current_token.type != TT_EQUAL:
+            return result.failure(InvalidSyntaxError(
+                self.current_token.position_start, self.current_token.position_end,
+                f"Expected ="
+            ))
+
+        result.register_advancement()
+        self.advance()
+
+        iter_from = result.register(self.assign())
+        if result.error:
+            return result
+
+        if not self.current_token.matches(TT_KEYWORD, 'TO'):
+            return result.failure(InvalidSyntaxError(
+                self.current_token.position_start, self.current_token.position_end,
+                f"Expected keyword<TO>"
+            ))
+
+        result.register_advancement()
+        self.advance()
+
+        iter_to = result.register(self.assign())
+        if result.error:
+            return result
+
+        if self.current_token.matches(TT_KEYWORD, 'STEP'):
+            result.register_advancement()
+            self.advance()
+
+            steps = result.register(self.assign())
+            if result.error:
+                return result
+        else:
+            steps = None
+
+        if not self.current_token.matches(TT_KEYWORD, 'THEN'):
+            return result.failure(InvalidSyntaxError(
+                self.current_token.position_start, self.current_token.position_end,
+                f"Expected keyword<THEN>"
+            ))
+
+        result.register_advancement()
+        self.advance()
+
+        body = result.register(self.assign())
+        if result.error:
+            return result
+
+        return result.success(ForLoopNode(identifier, iter_from, iter_to, steps, body))
+
+    def while_expr(self):
+        result = ParserResult()
+
+        if not self.current_token.matches(TT_KEYWORD, 'WHILE'):
+            return result.failure(InvalidSyntaxError(
+                self.current_token.position_start, self.current_token.position_end,
+                f"Expected keyword<WHILE>"
+            ))
+
+        result.register_advancement()
+        self.advance()
+
+        condition = result.register(self.assign())
+        if result.error:
+            return result
+
+        if not self.current_token.matches(TT_KEYWORD, 'THEN'):
+            return result.failure(InvalidSyntaxError(
+                self.current_token.position_start, self.current_token.position_end,
+                f"Expected keyword<THEN>"
+            ))
+
+        result.register_advancement()
+        self.advance()
+
+        body = result.register(self.assign())
+        if result.error:
+            return result
+
+        return result.success(WhileLoopNode(condition, body))
+
+    def loop_expr(self):
+        result = ParserResult()
+        token = self.current_token
+
+        if token.matches(TT_KEYWORD, 'FOR'):
+            for_expr = result.register(self.for_expr())
+            if result.error:
+                return result
+            return result.success(for_expr)
+        elif token.matches(TT_KEYWORD, 'WHILE'):
+            while_expr = result.register(self.while_expr())
+            if result.error:
+                return result
+            return result.success(while_expr)
+
+        return result.failure(InvalidSyntaxError(
+            self.current_token.position_start, self.current_token.position_end,
+            f"Expected keyword<FOR> or keyword<WHILE>"
+        ))
+
     def if_expr(self):
         result = ParserResult()
         cases = []
@@ -128,6 +252,11 @@ class Parser:
             if result.error:
                 return result
             return result.success(if_expr)
+        elif token.matches(TT_KEYWORD, 'FOR') or token.matches(TT_KEYWORD, 'WHILE'):
+            loop_expr = result.register(self.loop_expr())
+            if result.error:
+                return result
+            return result.success(loop_expr)
 
         return result.failure(InvalidSyntaxError(
             token.position_start, token.position_end,

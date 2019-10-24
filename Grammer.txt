@@ -1,9 +1,10 @@
 assign      : KEYWORD:VAR IDENTIFIER (EQUAL) bool-expr
+            : bool-expr
 
 bool-expr   : comp-expr ((KEYWORD:AND|KEYWORD:OR) comp-expr)*
 
 comp-expr   : (KEYWORD:NOT) comp-expr
-            : bit-or ((DOUBLE-EQUAL|LESS-THAN|GREATER-THAN|LESS-THAN-EQUAL|GREATER-THAN-EQUAL) bit-or)*
+            : bit-or ((DOUBLE-EQUAL|NOT-EQUAL|LESS-THAN|GREATER-THAN|LESS-THAN-EQUAL|GREATER-THAN-EQUAL) bit-or)*
 
 bit-or      : bit-xor ((BIT-OR) bit-xor)*
 
@@ -28,5 +29,13 @@ power       : atom (POW factor)*
 atom        : INT|FLOAT|IDENTIFIER
             : LPAREN expr RPAREN
             : if-expr
+            : loop-expr
 
 if-expr     : KEYWORD:IF assign KEYWORD:THEN assign (KEYWORD:ELIF assign KEYWORD:THEN assign)* (KEYWORD:ELSE assign)?
+
+loop-expr   : for-expr
+            : while-expr
+
+for-expr    : KEYWORD:FOR IDENTIFIER EQUAL assign KEYWORD:TO assign (KEYWORD:STEP assign)? KEYWORD:THEN assign
+
+while-expr  : KEYWORD:WHILE assign KEYWORD:THEN assign
